@@ -299,45 +299,51 @@ function App() {
       </motion.section>
 
       {/* Contact Section */}
-      <motion.section
-        id="contact"
-        className="py-20 px-6 text-center relative z-10"
-        variants={fadeUp}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-      >
-        <h2 className="text-3xl font-bold text-white">Connect With Me ✨</h2>
-        <p className="mt-4 text-gray-400">
-          Let’s link up! (No spam, only vibes 😎)
-        </p>
-        <div className="mt-8 flex flex-col md:flex-row justify-center gap-6 max-w-3xl mx-auto text-gray-300">
-          <a
-            href="https://github.com/Gowtham4-4"
-            target="_blank"
-            className="neon-card p-6 flex-1"
-          >
-            GitHub 🐙
-          </a>
-          <a
-            href="https://linkedin.com/in/gowtham-perumallapalli/"
-            target="_blank"
-            className="neon-card p-6 flex-1"
-          >
-            LinkedIn 💼
-          </a>
-          <a
-            href="https://instagram.com/YOUR_INSTAGRAM"
-            target="_blank"
-            className="neon-card p-6 flex-1"
-          >
-            Instagram 📸 <br />
-            <span className="text-pink-400 italic text-sm">
-              “Just here for the memes 😏”
-            </span>
-          </a>
-        </div>
-      </motion.section>
+<motion.section
+  id="contact"
+  className="py-20 px-6 text-center relative z-10"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="show"
+  viewport={{ once: true }}
+>
+  <h2 className="text-3xl font-bold text-white">Connect With Me ✨</h2>
+  <p className="mt-4 text-gray-400">
+    Let’s link up! (No spam, only vibes 😎)
+  </p>
+  <div className="mt-8 flex flex-col md:flex-row justify-center gap-6 max-w-3xl mx-auto text-gray-300">
+    <a
+      href="https://github.com/Gowtham4-4"
+      target="_blank"
+      className="neon-card p-6 flex-1"
+    >
+      GitHub 🐙 <br />
+      <span className="text-blue-400 italic text-sm">
+        “Where the magic (and bugs) happen ✨”
+      </span>
+    </a>
+    <a
+      href="https://linkedin.com/in/gowtham-perumallapalli/"
+      target="_blank"
+      className="neon-card p-6 flex-1"
+    >
+      LinkedIn 💼 <br />
+      <span className="text-blue-400 italic text-sm">
+        “Professional vibes only 😎”
+      </span>
+    </a>
+    <a
+      href="https://instagram.com/YOUR_INSTAGRAM"
+      target="_blank"
+      className="neon-card p-6 flex-1"
+    >
+      Instagram 📸 <br />
+      <span className="text-blue-400 italic text-sm">
+        “Just here for the memes 😏”
+      </span>
+    </a>
+  </div>
+</motion.section>
 
     </div>
   );
