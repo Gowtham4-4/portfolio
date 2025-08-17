@@ -1,100 +1,215 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 
 function App() {
-  // Animation variants
+  const [init, setInit] = useState(false);
+
   const fadeUp = {
     hidden: { opacity: 0, y: 50 },
     show: { opacity: 1, y: 0, transition: { duration: 0.8 } },
   };
 
+  // Initialize particles engine
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
+  // Particle config
+  const particlesOptions = useMemo(
+    () => ({
+      fullScreen: { enable: true, zIndex: -1 },
+      background: { color: "transparent" },
+      particles: {
+        number: { value: 60 },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.2 },
+        size: { value: 3 },
+        move: {
+          enable: true,
+          speed: 0.5,
+          direction: "none",
+          outModes: "bounce",
+        },
+        links: {
+          enable: true,
+          distance: 120,
+          color: "#ffffff",
+          opacity: 0.1,
+          width: 1,
+        },
+      },
+      interactivity: {
+        events: {
+          onHover: { enable: true, mode: "repulse" },
+          onClick: { enable: true, mode: "push" },
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { quantity: 4 },
+        },
+      },
+      detectRetina: true,
+    }),
+    []
+  );
+
   return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white">
-  <Navbar />
+    <div
+      className="relative text-white min-h-screen overflow-x-hidden 
+      bg-gradient-to-r from-gray-900 via-black to-gray-900 
+      bg-200% animate-gradientShift"
+    >
+      {/* Animated Particle Background */}
+      {init && <Particles id="tsparticles" options={particlesOptions} />}
+
+      <Navbar />
+
       {/* Hero Section */}
-<section id="home" className="relative h-screen w-full flex items-center px-12">
-  {/* Background Video */}
-  <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-xl">
-    <video
-      autoPlay
-      loop
-      muted
-      playsInline
-      className="w-full h-full object-cover"
-    >
-      <source src="/hero-bg.mp4" type="video/mp4" />
-    </video>
-  </div>
+      <section className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-6 md:px-16">
+        {/* Left: Text */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="max-w-xl text-center md:text-left relative z-10"
+        >
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+            Hi, I’m{" "}
+            <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-400 bg-clip-text text-transparent animate-pulse">
+              Gowtham
+            </span>{" "}
+            👋
+          </h1>
+          <p className="text-gray-300 text-lg mb-6">
+            CS Undergrad 💻 | Web Dev 🌐 | AI Enthusiast 🤖 <br />
+            Turning ☕ into code, building apps that (hopefully) don’t break 😅.
+          </p>
+          <p className="text-pink-400 italic mb-6">
+           🐒 “Evolving… slowly.”
+          </p>
 
-  {/* Adjusted Transparent Overlay */}
-  <div className="absolute top-32 left-1/4 w-2/3 h-2/3 bg-white/10 backdrop-blur-xl rounded-3xl shadow-xl p-12 flex flex-col justify-center">
-    {/* Hero Text inside overlay */}
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-      className="max-w-2xl"
-    >
-      <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
-        Hi, I’m{" "}
-        <span className="bg-gradient-to-r from-gray-200 via-gray-400 to-gray-200 bg-clip-text text-transparent">
-          Gowtham
-        </span>{" "}
-        👋
-      </h2>
-      <p className="text-lg text-gray-300">
-        Computer Science Undergrad | Web Developer | AI Enthusiast
-      </p>
-    </motion.div>
-  </div>
-{/* Profile Pic aligned to left of overlay */}
-<motion.img
-  src="/profile.jpg"
-  alt="Gowtham"
-  className="absolute top-1/2 left-16 transform -translate-y-1/2 w-52 h-52 rounded-full border-4 border-white/20 shadow-lg"
-/>
+          {/* Buttons */}
+          <div className="flex gap-4 justify-center md:justify-start">
+            <a
+              href="#projects"
+              className="px-6 py-3 bg-pink-600 rounded-lg text-white font-semibold hover:bg-pink-500 transition shadow-[0_0_15px_#ff2d75]"
+            >
+              Explore Projects 🚀
+            </a>
+            <a
+              href="/Resume.pdf"
+              download
+              className="px-6 py-3 bg-indigo-600 rounded-lg text-white font-semibold hover:bg-indigo-500 transition shadow-[0_0_15px_#6a5acd]"
+            >
+              Download Resume 📄
+            </a>
+          </div>
+        </motion.div>
 
+        {/* Right: Profile Image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="mt-10 md:mt-0 relative z-10"
+        >
+          <img
+            src="/profile.jpg"
+            alt="Profile"
+            className="w-64 h-64 md:w-80 md:h-80 rounded-2xl border-4 border-pink-500 shadow-[0_0_30px_#ff2d75] animate-none"
+          />
+        </motion.div>
+      </section>
 
-</section>
+      {/* About + Education + Experience Section */}
+      <section id="overview" className="py-20 px-6 relative z-10">
+        <h2 className="text-3xl font-bold text-white text-center mb-12">
+          About Me & Background
+        </h2>
 
-{/* About Section */}
-<motion.section
-  id="about"
-  className="py-20 px-6 text-center mt-12 relative z-10"
-  initial={{ opacity: 0, y: 50 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0.3 }}
-  transition={{ duration: 1 }}
->
-  <h2 className="text-3xl font-bold text-white">About Me</h2>
-  <div className="mt-8 max-w-3xl mx-auto backdrop-blur-lg bg-white/10 to-black/70 p-8 rounded-t-3xl border border-white/10">
-    <p className="text-gray-300 text-lg">
-      Hi! I'm Gowtham, a Computer Science undergrad passionate about building 
-      interactive web apps and exploring the world of AI. I love turning creative 
-      ideas into real projects, learning new technologies, and sharing my knowledge 
-      with others. When I'm not coding, you can find me gaming or editing videos. 
-    </p>
-  </div>
-</motion.section>
+        <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto">
+          {/* About */}
+          <div className="flex-1 neon-card">
+            <h3 className="text-xl font-semibold text-white mb-3">About Me</h3>
+            <p className="text-gray-300 text-sm">
+              I'm a Computer Science undergraduate passionate about building
+              interactive web apps and leveraging technology to solve real-world
+              problems. I thrive on challenges and enjoy turning creative ideas
+              into real projects.
+            </p>
+          </div>
 
+          {/* Education */}
+          <div className="flex-1 neon-card">
+            <h3 className="text-xl font-semibold text-white mb-3">Education</h3>
+            <p className="text-gray-300 text-sm">
+              <strong>B-TECH:</strong> Vaagdevi College of Engineering, Warangal
+              | 2026 | CGPA: 8.51
+            </p>
+            <p className="text-gray-300 text-sm">
+              <strong>Intermediate:</strong> Resonance Jr College, Khammam |
+              2022 | 93%
+            </p>
+            <p className="text-gray-300 text-sm">
+              <strong>SSC:</strong> Karunya Vidhya Bhavan, Khammam | 2020 | GPA:
+              10
+            </p>
+          </div>
+
+          {/* Experience */}
+          <div className="flex-1 neon-card">
+            <h3 className="text-xl font-semibold text-white mb-3">
+              Experience
+            </h3>
+            <ul className="text-gray-300 text-sm list-disc list-inside space-y-1">
+              <li>GEMA | Marketing Intern | Mar-May 2025</li>
+              <li>AICTE & Shell India | Python Dev Intern | Mar-Apr 2025</li>
+              <li>TechSaksham | Web Dev Intern | Feb-Mar 2025</li>
+              <li>
+                EY – Edunet Foundation | MERN Stack Intern | Sep 2024 – Jan 2025
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
       {/* Skills Section */}
       <motion.section
         id="skills"
-        className="py-20 px-6 text-center"
+        className="py-20 px-6 relative z-10"
         variants={fadeUp}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl font-bold text-white">Skills</h2>
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          {["JavaScript", "React", "Python", "Tailwind CSS"].map((skill, index) => (
+        <h2 className="text-3xl font-bold text-white text-center mb-12">
+          Skills
+        </h2>
+        <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
+          {[
+            "JavaScript",
+            "React",
+            "Python",
+            "Node Js",
+            "Vue.js",
+            "Express.js",
+            "MongoDB",
+            "SQL",
+            
+          ].map((skill, index) => (
             <motion.div
               key={index}
-              className="p-6 rounded-lg shadow-md bg-gradient-to-br from-black/40 to-black/70 border border-white/10"
+              className="neon-card min-w-[150px] text-center"
               whileHover={{ scale: 1.05 }}
             >
               <p className="text-lg font-semibold text-gray-300">{skill}</p>
@@ -103,113 +218,131 @@ function App() {
         </div>
       </motion.section>
 
-      {/* Projects Section */}
+        {/* Projects Section */}
       <motion.section
         id="projects"
-        className="py-20 px-6 text-center"
+        className="py-20 px-6 relative z-10"
         variants={fadeUp}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl font-bold text-white">Projects</h2>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {[1, 2].map((proj) => (
-            <motion.div
-              key={proj}
-              className="p-6 rounded-lg shadow-lg bg-gradient-to-br from-black/40 to-black/70 border border-white/10"
-              whileHover={{ scale: 1.05 }}
-            >
-              <h3 className="text-xl font-semibold text-white">
-                Project {proj}
+        <h2 className="text-3xl font-bold text-white text-center mb-12">
+          Projects
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* Film Location Finder */}
+          <motion.div className="neon-card flex flex-col justify-between min-h-[280px] p-6">
+            <div>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                Film Location Finder
               </h3>
-              <p className="mt-2 text-gray-400">
-                Description of project {proj} goes here.
+              <p className="text-gray-400 text-sm mb-2">
+                A web app using <strong>React.js, Express.js, MongoDB</strong> to
+                help users find filming locations.
               </p>
+              <p className="text-gray-400 text-sm mb-4">
+                <strong>Tech Stack:</strong> React.js | Express.js | MongoDB
+              </p>
+            </div>
+            <div className="flex gap-4 mt-4">
               <a
-                href="#"
-                className="inline-block mt-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition"
+                href="https://cinespot4.vercel.app"
+                target="_blank"
+                className="px-4 py-2 bg-pink-600 rounded hover:bg-pink-500 transition shadow-[0_0_15px_#ff2d75]"
               >
-                View Project
+                Live Demo
               </a>
-            </motion.div>
-          ))}
+              <a
+                href="https://github.com/Gowtham4-4"
+                target="_blank"
+                className="px-4 py-2 bg-indigo-600 rounded hover:bg-indigo-500 transition shadow-[0_0_15px_#6a5acd]"
+              >
+                GitHub
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Resume Ranker */}
+          <motion.div className="neon-card flex flex-col justify-between min-h-[280px] p-6">
+            <div>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                Resume Ranker
+              </h3>
+              <p className="text-gray-400 text-sm mb-2">
+                Built using <strong>Streamlit</strong>. This app ranks and screens
+                resumes automatically, helping recruiters identify top candidates
+                efficiently.
+              </p>
+              <p className="text-gray-400 text-sm mb-4">
+                <strong>Tech Stack:</strong> Streamlit | Python
+              </p>
+            </div>
+            <div className="flex gap-4 mt-4">
+              <a
+                href="https://resumeranking-4.streamlit.app"
+                target="_blank"
+                className="px-4 py-2 bg-pink-600 rounded hover:bg-pink-500 transition shadow-[0_0_15px_#ff2d75]"
+              >
+                Live Demo
+              </a>
+              <a
+                href="https://github.com/Gowtham4-4"
+                target="_blank"
+                className="px-4 py-2 bg-indigo-600 rounded hover:bg-indigo-500 transition shadow-[0_0_15px_#6a5acd]"
+              >
+                GitHub
+              </a>
+            </div>
+          </motion.div>
         </div>
       </motion.section>
 
       {/* Contact Section */}
-<motion.section
-  id="contact"
-  className="py-20 px-6 text-center"
-  variants={fadeUp}
-  initial="hidden"
-  whileInView="show"
-  viewport={{ once: true }}
->
-  <h2 className="text-3xl font-bold text-white">Connect with me</h2>
-  <p className="mt-4 text-gray-400">Follow or message me on social media 🚀</p>
-
-  <div className="mt-8 flex justify-center space-x-8 text-gray-300">
-    {/* GitHub */}
-    <a
-      href="https://github.com/yourusername"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="hover:text-white transition transform hover:scale-110"
-    >
-      <svg
-        className="w-8 h-8"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
+      <motion.section
+        id="contact"
+        className="py-20 px-6 text-center relative z-10"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
       >
-        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.263.82-.583 0-.288-.01-1.05-.015-2.06-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.333-1.753-1.333-1.753-1.09-.744.083-.729.083-.729 1.205.085 1.84 1.24 1.84 1.24 1.07 1.835 2.805 1.305 3.49.998.108-.776.418-1.305.76-1.605-2.665-.3-5.467-1.335-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.123-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 013-.405c1.02.005 2.045.138 3 .405 2.29-1.552 3.296-1.23 3.296-1.23.653 1.653.242 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.813 1.102.813 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.698.825.58C20.565 21.795 24 17.297 24 12c0-6.63-5.37-12-12-12z"/>
-      </svg>
-    </a>
+        <h2 className="text-3xl font-bold text-white">Connect With Me ✨</h2>
+        <p className="mt-4 text-gray-400">
+          Let’s link up! (No spam, only vibes 😎)
+        </p>
+        <div className="mt-8 flex flex-col md:flex-row justify-center gap-6 max-w-3xl mx-auto text-gray-300">
+          <a
+            href="https://github.com/Gowtham4-4"
+            target="_blank"
+            className="neon-card p-6 flex-1"
+          >
+            GitHub 🐙
+          </a>
+          <a
+            href="https://linkedin.com/in/gowtham-perumallapalli/"
+            target="_blank"
+            className="neon-card p-6 flex-1"
+          >
+            LinkedIn 💼
+          </a>
+          <a
+            href="https://instagram.com/YOUR_INSTAGRAM"
+            target="_blank"
+            className="neon-card p-6 flex-1"
+          >
+            Instagram 📸 <br />
+            <span className="text-pink-400 italic text-sm">
+              “Just here for the memes 😏”
+            </span>
+          </a>
+        </div>
+      </motion.section>
 
-    {/* LinkedIn */}
-    <a
-      href="https://linkedin.com/in/yourusername"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="hover:text-white transition transform hover:scale-110"
-    >
-      <svg
-        className="w-8 h-8"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.25c-.966 0-1.75-.784-1.75-1.75S5.534 4.25 6.5 4.25s1.75.784 1.75 1.75S7.466 7.75 6.5 7.75zm13.5 11.25h-3v-5.5c0-1.379-1.121-2.5-2.5-2.5s-2.5 1.121-2.5 2.5v5.5h-3v-10h3v1.354c.779-1.021 2.206-1.354 3.5-1.354 2.485 0 4.5 2.015 4.5 4.5v5.5z"/>
-      </svg>
-    </a>
-
-    {/* Instagram */}
-    <a
-      href="https://instagram.com/yourusername"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="hover:text-white transition transform hover:scale-110"
-    >
-      <svg
-        className="w-8 h-8"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.338 3.608 1.313.975.975 1.251 2.242 1.313 3.608.058 1.266.07 1.645.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.338 2.633-1.313 3.608-.975.975-2.242 1.251-3.608 1.313-1.266.058-1.645.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.338-3.608-1.313-.975-.975-1.251-2.242-1.313-3.608-.058-1.266-.07-1.645-.07-4.85s.012-3.584.07-4.85c.062-1.366.338-2.633 1.313-3.608.975-.975 2.242-1.251 3.608-1.313 1.266-.058 1.645-.07 4.85-.07zm0-2.163C8.737 0 8.332.012 7.052.072 5.773.132 4.642.364 3.678 1.328 2.713 2.292 2.482 3.423 2.422 4.702 2.362 5.982 2.35 6.387 2.35 12s.012 6.018.072 7.298c.06 1.279.292 2.41 1.256 3.374.964.964 2.095 1.196 3.374 1.256 1.28.06 1.685.072 7.298.072s6.018-.012 7.298-.072c1.279-.06 2.41-.292 3.374-1.256.964-.964 1.196-2.095 1.256-3.374.06-1.28.072-1.685.072-7.298s-.012-6.018-.072-7.298c-.06-1.279-.292-2.41-1.256-3.374C19.41.364 18.279.132 17 .072 15.718.012 15.313 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/>
-      </svg>
-    </a>
-  </div>
-</motion.section>
-
-
-      {/* Footer */}
-      <footer className="py-6 text-center text-gray-500 text-sm border-t border-white/10">
-        © {new Date().getFullYear()} Gowtham. All rights reserved.
-      </footer>
     </div>
   );
 }
 
 export default App;
+
+
