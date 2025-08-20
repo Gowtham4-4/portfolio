@@ -75,7 +75,7 @@ function App() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-6 md:px-16">
+      <section id="home" className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-6 md:px-16">
         {/* Left: Text */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -132,7 +132,7 @@ function App() {
       </section>
 
       {/* About + Education + Experience Section */}
-      <section id="overview" className="py-20 px-6 relative z-10">
+      <section id="about" className="py-20 px-6 relative z-10">
         <h2 className="text-3xl font-bold text-white text-center mb-12">
           About Me & Background
         </h2>
