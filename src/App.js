@@ -333,7 +333,7 @@ function App() {
       </span>
     </a>
     <a
-      href="https://instagram.com/YOUR_INSTAGRAM"
+      href="https://www.instagram.com/crazy_4235_?igsh=cWVsczR0ZTJwNzVi"
       target="_blank"
       className="neon-card p-6 flex-1"
     >
