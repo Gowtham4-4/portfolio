@@ -10,3 +10,15 @@
     hover:shadow-[0_0_35px_rgba(0,255,255,1)] transition;
   }
 }
+/* Fix for mobile view */
+@media (max-width: 768px) {
+  #home {
+    padding-top: 5rem;   /* Push hero section down below navbar */
+  }
+
+  nav {
+    height: auto;        /* Prevent navbar clipping */
+    padding-top: 1rem;   /* Add breathing space */
+    padding-bottom: 1rem;
+  }
+}
