@@ -197,12 +197,10 @@ function App() {
         </h2>
         <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
           {[
+            "Java",
             "JavaScript",
             "React",
             "Python",
-            "Node Js",
-            "Vue.js",
-            "Express.js",
             "MongoDB",
             "SQL",
             
